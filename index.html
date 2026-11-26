@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f2eb">
+    <title>Worki — Design Portfolio</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #20201e;
+            --paper: #f5f2eb;
+            --orange: #f15b36;
+            --muted: #77766f;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: Arial, "Noto Sans KR", sans-serif;
+        }
+
+        .wrap {
+            width: 100%;
+        }
+
+        .section {
+            position: relative;
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100svh;
+            padding: clamp(28px, 5vw, 72px);
+            overflow: hidden;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            align-items: center;
+        }
+
+        .section-inner {
+            width: min(100%, 1440px);
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        .hero {
+            background: var(--paper);
+        }
+
+        .hero::after {
+            position: absolute;
+            right: -9vw;
+            bottom: -34vw;
+            width: min(76vw, 980px);
+            aspect-ratio: 1;
+            border: 1px solid rgba(32, 32, 30, .13);
+            border-radius: 50%;
+            content: "";
+            box-shadow: 0 0 0 7vw var(--paper), 0 0 0 calc(7vw + 1px) rgba(32, 32, 30, .1),
+                0 0 0 14vw var(--paper), 0 0 0 calc(14vw + 1px) rgba(32, 32, 30, .08);
+            pointer-events: none;
+        }
+
+        .hero .section-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            max-width: 1000px;
+            margin: 0;
+            font-size: clamp(72px, 14vw, 200px);
+            font-weight: 800;
+            letter-spacing: -.09em;
+            line-height: .78;
+        }
+
+        .hero h1 span {
+            display: block;
+            color: var(--orange);
+        }
+
+        .hero-copy {
+            max-width: 400px;
+            margin: 42px 0 0 auto;
+            font-size: clamp(15px, 1.5vw, 20px);
+            line-height: 1.7;
+        }
+
+        .hero-copy strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.15em;
+        }
+
+        .profile {
+            color: var(--paper);
+            background: var(--ink);
+        }
+
+        .profile .eyebrow,
+        .contact .eyebrow {
+            color: rgba(245, 242, 235, .62);
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 1fr minmax(240px, .7fr);
+            gap: clamp(40px, 10vw, 160px);
+            align-items: end;
+        }
+
+        .profile h2,
+        .contact h2 {
+            margin: 0;
+            font-size: clamp(54px, 9.5vw, 140px);
+            font-weight: 700;
+            letter-spacing: -.075em;
+            line-height: .95;
+        }
+
+        .profile h2 span {
+            color: var(--orange);
+        }
+
+        .profile-details {
+            padding-bottom: 8px;
+        }
+
+        .profile-details p {
+            max-width: 420px;
+            margin: 0 0 28px;
+            color: rgba(245, 242, 235, .76);
+            font-size: clamp(15px, 1.45vw, 19px);
+            line-height: 1.8;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skills span {
+            padding: 9px 13px;
+            border: 1px solid rgba(245, 242, 235, .27);
+            border-radius: 99px;
+            font-size: 12px;
+            letter-spacing: .04em;
+        }
+
+        .contact {
+            color: var(--paper);
+            background: var(--orange);
+        }
+
+        .contact .eyebrow {
+            color: rgba(255, 255, 255, .76);
+        }
+
+        .contact h2 {
+            max-width: 1000px;
+            font-size: clamp(58px, 11vw, 160px);
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 18px;
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, .7);
+            color: inherit;
+            font-size: clamp(16px, 2vw, 23px);
+            text-decoration: none;
+        }
+
+        .contact-link span {
+            font-size: 1.4em;
+            transition: transform .25s ease;
+        }
+
+        .contact-link:hover span {
+            transform: translate(5px, -5px);
+        }
+
+        .section-number {
+            position: absolute;
+            right: clamp(28px, 5vw, 72px);
+            bottom: clamp(28px, 5vw, 72px);
+            font-size: 12px;
+            letter-spacing: .12em;
+            opacity: .65;
+        }
+
+        .scroll-cue {
+            position: absolute;
+            bottom: clamp(28px, 5vw, 72px);
+            left: clamp(28px, 5vw, 72px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 11px;
+            letter-spacing: .12em;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .scroll-cue::after {
+            width: 40px;
+            height: 1px;
+            background: currentColor;
+            content: "";
+            animation: cue 1.5s ease-in-out infinite;
+        }
+
+        .section .section-inner > * {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1);
+        }
+
+        .section.is-visible .section-inner > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section.is-visible .section-inner > :nth-child(2) {
+            transition-delay: .12s;
+        }
+
+        .section.is-visible .section-inner > :nth-child(3) {
+            transition-delay: .22s;
+        }
+
+        @keyframes cue {
+            0%, 100% { transform: translateX(0); opacity: .5; }
+            50% { transform: translateX(8px); opacity: 1; }
+        }
+
+        @media (max-width: 700px) {
+            .section {
+                padding: 30px 24px;
+            }
+
+            .hero h1 {
+                font-size: clamp(66px, 19vw, 120px);
+            }
+
+            .hero-copy {
+                margin: 32px 0 0;
+            }
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+
+            .profile h2,
+            .contact h2 {
+                font-size: clamp(54px, 15vw, 100px);
+            }
+
+            .scroll-cue {
+                left: 24px;
+                bottom: 28px;
+            }
+
+            .section-number {
+                right: 24px;
+                bottom: 28px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <section class="section hero is-visible" id="intro" aria-labelledby="intro-title">
+            <div class="section-inner">
+                <p class="eyebrow">Independent design portfolio · 2026</p>
+                <h1 id="intro-title">Hello,<span>Worki.</span></h1>
+                <div class="hero-copy">
+                    <strong>좋은 아이디어를, 좋은 경험으로.</strong>
+                    <p>브랜드의 이야기를 발견하고, 오래 기억될 시각 언어와 디지털 경험을 만듭니다.</p>
+                </div>
+            </div>
+            <a class="scroll-cue" href="#profile">Scroll to explore</a>
+            <span class="section-number">01 / 03</span>
+        </section>
+
+        <section class="section profile" id="profile" aria-labelledby="profile-title">
+            <div class="section-inner">
+                <p class="eyebrow">01 — Profile</p>
+                <div class="profile-layout">
+                    <h2 id="profile-title">Design<br>with <span>purpose.</span></h2>
+                    <div class="profile-details">
+                        <p>안녕하세요. 사람과 브랜드 사이에 자연스러운 연결을 만드는 디자이너입니다. 작은 디테일까지 세심하게 살피며, 명확하고 따뜻한 결과물을 고민합니다.</p>
+                        <div class="skills" aria-label="디자인 분야">
+                            <span>Brand Identity</span>
+                            <span>Web Design</span>
+                            <span>Illustration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="section-number">02 / 03</span>
+        </section>
+
+        <section class="section contact" id="contact" aria-labelledby="contact-title">
+            <div class="section-inner">
+                <p class="eyebrow">02 — Let's work together</p>
+                <h2 id="contact-title">다음 이야기를<br>함께 만들어요.</h2>
+                <a class="contact-link" href="mailto:hello@worki.design">프로젝트 문의하기 <span aria-hidden="true">↗</span></a>
+            </div>
+            <span class="section-number">03 / 03</span>
+        </section>
+    </main>
+    <script>
+        const sections = document.querySelectorAll(".section");
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                } else {
+                    entry.target.classList.remove("is-visible");
+                }
+            });
+        }, { threshold: 0.55 });
+
+        sections.forEach((section) => observer.observe(section));
+    </script>
+</body>
+</html>
